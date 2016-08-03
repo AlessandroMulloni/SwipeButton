@@ -6,6 +6,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 public class SwipeButton extends FrameLayout {
@@ -63,8 +65,7 @@ public class SwipeButton extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                finger.setVisibility(View.VISIBLE);
-                target.setVisibility(View.VISIBLE);
+                blendInUI();
                 scaleUpFinger(event);
                 break;
 
@@ -74,8 +75,7 @@ public class SwipeButton extends FrameLayout {
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                finger.setVisibility(View.INVISIBLE);
-                target.setVisibility(View.INVISIBLE);
+                blendOutUI();
 
                 if (listener != null) {
                     if (finger.getScaleX() >= scaleTarget) {
@@ -94,6 +94,54 @@ public class SwipeButton extends FrameLayout {
     private void setViewScale(View view, float scale) {
         view.setScaleX(scale);
         view.setScaleY(scale);
+    }
+
+    private void blendInUI() {
+        fadeInView(finger);
+        fadeInView(target);
+    }
+
+    private void fadeInView(final View view) {
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.default_enter);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        view.startAnimation(animation);
+    }
+
+    private void blendOutUI() {
+        fadeOutView(finger);
+        fadeOutView(target);
+    }
+
+    private void fadeOutView(final View view) {
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.default_exit);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        view.startAnimation(animation);
     }
 
     private void scaleUpFinger(MotionEvent e) {
