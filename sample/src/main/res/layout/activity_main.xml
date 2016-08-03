@@ -13,6 +13,7 @@
         android:layout_gravity="bottom"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:id="@+id/button1"
         />
 
     <com.alessandromulloni.swipebutton.SwipeButton
@@ -21,6 +22,7 @@
         android:layout_gravity="bottom|right"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:id="@+id/button2"
         />
 
 </FrameLayout>

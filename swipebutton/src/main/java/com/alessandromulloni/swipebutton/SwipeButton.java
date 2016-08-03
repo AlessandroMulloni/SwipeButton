@@ -10,9 +10,17 @@ import android.widget.FrameLayout;
 
 public class SwipeButton extends FrameLayout {
 
+    public interface OnSwipeListener {
+        void onSwipeChanged(View view, float level);
+        void onSwipeCancelled(View view);
+        void onSwipeConfirmed(View view);
+    }
+
     private View button;
     private View finger;
     private View target;
+
+    private OnSwipeListener listener;
 
     private float scaleTarget = 3.0f;
 
@@ -47,15 +55,13 @@ public class SwipeButton extends FrameLayout {
         setViewScale(target, scaleTarget);
     }
 
+    public void setOnSwipeListener(OnSwipeListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                finger.setVisibility(View.INVISIBLE);
-                target.setVisibility(View.INVISIBLE);
-                break;
-
             case MotionEvent.ACTION_DOWN:
                 finger.setVisibility(View.VISIBLE);
                 target.setVisibility(View.VISIBLE);
@@ -64,6 +70,21 @@ public class SwipeButton extends FrameLayout {
 
             case MotionEvent.ACTION_MOVE:
                 scaleUpFinger(event);
+                break;
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                finger.setVisibility(View.INVISIBLE);
+                target.setVisibility(View.INVISIBLE);
+
+                if (listener != null) {
+                    if (finger.getScaleX() >= scaleTarget) {
+                        listener.onSwipeConfirmed(this);
+                    } else {
+                        listener.onSwipeCancelled(this);
+                    }
+                }
+
                 break;
         }
 
@@ -78,6 +99,10 @@ public class SwipeButton extends FrameLayout {
     private void scaleUpFinger(MotionEvent e) {
         float scale = getScale(e);
         setViewScale(finger, scale);
+
+        if (listener != null) {
+            listener.onSwipeChanged(this, scale);
+        }
     }
 
     private float getScale(MotionEvent e) {
