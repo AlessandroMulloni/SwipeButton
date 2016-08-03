@@ -4,7 +4,7 @@ ext {
     bintrayRepo = 'maven'
     bintrayName = 'SwipeButton'
 
-    publishedGroupId = 'com.alessandromulloni.swipebutton'
+    publishedGroupId = 'com.alessandromulloni'
     libraryName = 'SwipeButton'
     artifact = 'swipebutton'
 
