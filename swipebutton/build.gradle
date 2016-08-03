@@ -1,5 +1,21 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'SwipeButton'
+
+    publishedGroupId = 'com.alessandromulloni.swipebutton'
+    libraryName = 'SwipeButton'
+    artifact = 'swipebutton'
+
+    libraryDescription = 'A widget that is enabled by circular swiping out of the center and above a given distance.'
+    libraryVersion = '1.0.0'
+
+    developerId = 'amulloni'
+    developerName = 'Alessandro Mulloni'
+    developerEmail = 'info@alessandromulloni.com'
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -21,3 +37,6 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
 }
+
+apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
