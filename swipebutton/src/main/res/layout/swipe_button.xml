@@ -10,9 +10,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/default_button"
+        android:background="@drawable/default_target"
         android:visibility="invisible"
-        android:alpha="0.5"
         android:id="@+id/target"
         />
 
@@ -28,7 +27,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/default_finger"
         android:visibility="invisible"
-        android:alpha="0.5"
         android:id="@+id/finger"
         />
 
