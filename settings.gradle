@@ -1,1 +1,1 @@
-include ':sample', ':swipebutton', ':sample'
+include ':swipebutton', ':sample'
