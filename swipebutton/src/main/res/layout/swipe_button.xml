@@ -10,24 +10,26 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#7fff0000"
+        android:background="@drawable/default_button"
         android:visibility="invisible"
-        android:id="@+id/finger"
+        android:alpha="0.5"
+        android:id="@+id/target"
         />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@drawable/default_button"
         android:id="@+id/button"
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#7f00ff00"
+        android:background="@drawable/default_finger"
         android:visibility="invisible"
-        android:id="@+id/target"
+        android:alpha="0.5"
+        android:id="@+id/finger"
         />
 
 </FrameLayout>

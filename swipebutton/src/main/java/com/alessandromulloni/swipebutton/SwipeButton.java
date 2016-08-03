@@ -22,7 +22,7 @@ public class SwipeButton extends FrameLayout {
 
     private OnSwipeListener listener;
 
-    private float scaleTarget = 3.0f;
+    private float scaleTarget = 5.0f;
 
     public SwipeButton(Context context) {
         super(context);
