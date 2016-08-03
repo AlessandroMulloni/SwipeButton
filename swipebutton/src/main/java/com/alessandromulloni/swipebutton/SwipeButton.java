@@ -101,7 +101,7 @@ public class SwipeButton extends FrameLayout {
         setViewScale(finger, scale);
 
         if (listener != null) {
-            listener.onSwipeChanged(this, scale);
+            listener.onSwipeChanged(this, scale / scaleTarget);
         }
     }
 

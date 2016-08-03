@@ -7,6 +7,12 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        />
+
     <com.alessandromulloni.swipebutton.SwipeButton
         android:layout_width="60dp"
         android:layout_height="60dp"

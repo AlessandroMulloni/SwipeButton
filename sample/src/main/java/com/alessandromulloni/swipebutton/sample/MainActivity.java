@@ -3,6 +3,7 @@ package com.alessandromulloni.swipebutton.sample;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alessandromulloni.swipebutton.SwipeButton;
@@ -11,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeButton button1;
     private SwipeButton button2;
+    private TextView textView;
 
     private Toast toast;
 
@@ -27,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwipeCancelled(View view) {
-                showToast("Button 1 swipe cancelled");
+                showMessage("Button 1 swipe cancelled");
             }
 
             @Override
             public void onSwipeConfirmed(View view) {
-                showToast("Button 1 swipe confirmed");
+                showMessage("Button 1 swipe confirmed");
             }
         });
 
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnSwipeListener(new SwipeButton.OnSwipeListener() {
             @Override
             public void onSwipeChanged(View view, float level) {
-                showToast("Button 2 swipe level " + level);
+                showMessage("Button 2 swipe level " + level);
             }
 
             @Override
@@ -51,15 +53,11 @@ public class MainActivity extends AppCompatActivity {
             public void onSwipeConfirmed(View view) {
             }
         });
+
+        textView = (TextView)findViewById(R.id.textView);
     }
 
-    private void showToast(String message) {
-        if (toast == null) {
-            toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        } else {
-            toast.setText(message);
-        }
-
-        toast.show();
+    private void showMessage(String message) {
+        textView.setText(message);
     }
 }
