@@ -8,7 +8,7 @@ Gradle
 ```
 dependencies {
     ...
-    compile 'com.alessandromulloni.swipebutton:1.0.0'
+    compile 'com.alessandromulloni.swipebutton:1.0.2'
 }
 ```
 
@@ -19,14 +19,23 @@ Usage
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:id="@+id/button1"
+        app:background_button="@drawable/button1_button"
+        app:background_target="@drawable/button1_target"
+        app:background_finger_cancel="@drawable/button1_finger_cancel"
+        app:background_finger_confirm="@drawable/button1_finger_confirm"
+        app:animation_enter="@anim/button2_enter"
+        app:animation_exit_cancel="@anim/button2_exit_cancel"
+        app:animation_exit_confirm="@anim/button2_exit_confirm"
+        app:src="@drawable/ic_close_black_24dp"
         />
 ```
 
 Changelog
 ---------
+* **1.0.2**
+    * More custom parameters to control animations and backgrounds differently based on cancel/confirm status
+* **1.0.1**
+    * Parameters can be customized in XML from the layout editor
 * **1.0.0**
     * Initial release
 
