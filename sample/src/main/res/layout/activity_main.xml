@@ -37,6 +37,8 @@
         app:background_finger_confirm="@drawable/button2_finger"
         app:src="@drawable/ic_check_black_24dp"
         app:animation_enter="@anim/button2_enter"
+        app:animation_exit_cancel="@anim/button2_exit_cancel"
+        app:animation_exit_confirm="@anim/button2_exit_confirm"
         android:id="@+id/button2"
         />
 
