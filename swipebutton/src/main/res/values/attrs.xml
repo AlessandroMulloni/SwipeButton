@@ -4,8 +4,10 @@
         <attr name="src" format="reference" />
         <attr name="background_button" format="reference" />
         <attr name="background_target" format="reference" />
-        <attr name="background_finger" format="reference" />
+        <attr name="background_finger_cancel" format="reference" />
+        <attr name="background_finger_confirm" format="reference" />
         <attr name="animation_enter" format="reference" />
-        <attr name="animation_exit" format="reference" />
+        <attr name="animation_exit_cancel" format="reference" />
+        <attr name="animation_exit_confirm" format="reference" />
     </declare-styleable>
 </resources>

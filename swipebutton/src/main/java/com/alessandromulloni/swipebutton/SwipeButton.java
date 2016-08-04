@@ -29,11 +29,14 @@ public class SwipeButton extends FrameLayout {
     private int src;
     private int background_button = R.drawable.default_button;
     private int background_target = R.drawable.default_target;
-    private int background_finger = R.drawable.default_finger;
+    private int background_finger_cancel = R.drawable.default_finger_cancel;
+    private int background_finger_confirm = R.drawable.default_finger_confirm;
     private int animation_enter = R.anim.default_enter;
-    private int animation_exit = R.anim.default_exit;
+    private int animation_exit_cancel = R.anim.default_exit_cancel;
+    private int animation_exit_confirm = R.anim.default_exit_confirm;
 
     private float scaleTarget = 5.0f;
+    private float lastFingerScale = 0.0f;
 
     public SwipeButton(Context context) {
         super(context);
@@ -79,9 +82,11 @@ public class SwipeButton extends FrameLayout {
             src = a.getResourceId(R.styleable.SwipeButton_src, src);
             background_button = a.getResourceId(R.styleable.SwipeButton_background_button, background_button);
             background_target = a.getResourceId(R.styleable.SwipeButton_background_target, background_target);
-            background_finger = a.getResourceId(R.styleable.SwipeButton_background_finger, background_finger);
+            background_finger_cancel = a.getResourceId(R.styleable.SwipeButton_background_finger_cancel, background_finger_cancel);
+            background_finger_confirm = a.getResourceId(R.styleable.SwipeButton_background_finger_confirm, background_finger_confirm);
             animation_enter = a.getResourceId(R.styleable.SwipeButton_animation_enter, animation_enter);
-            animation_exit = a.getResourceId(R.styleable.SwipeButton_animation_exit, animation_exit);
+            animation_exit_cancel = a.getResourceId(R.styleable.SwipeButton_animation_exit_cancel, animation_exit_cancel);
+            animation_exit_confirm = a.getResourceId(R.styleable.SwipeButton_animation_exit_confirm, animation_exit_confirm);
         } finally {
             a.recycle();
         }
@@ -90,7 +95,7 @@ public class SwipeButton extends FrameLayout {
         button.setImageResource(src);
 
         target.setBackgroundResource(background_target);
-        finger.setBackgroundResource(background_finger);
+        finger.setBackgroundResource(background_finger_cancel);
     }
 
     public void setOnSwipeListener(OnSwipeListener listener) {
@@ -114,7 +119,7 @@ public class SwipeButton extends FrameLayout {
                 blendOutUI();
 
                 if (listener != null) {
-                    if (finger.getScaleX() >= scaleTarget) {
+                    if (isConfirmed()) {
                         listener.onSwipeConfirmed(this);
                     } else {
                         listener.onSwipeCancelled(this);
@@ -125,6 +130,10 @@ public class SwipeButton extends FrameLayout {
         }
 
         return true;
+    }
+
+    private boolean isConfirmed() {
+        return (lastFingerScale >= scaleTarget);
     }
 
     private void setViewScale(View view, float scale) {
@@ -162,7 +171,7 @@ public class SwipeButton extends FrameLayout {
     }
 
     private void fadeOutView(final View view) {
-        Animation animation = AnimationUtils.loadAnimation(getContext(), animation_exit);
+        Animation animation = AnimationUtils.loadAnimation(getContext(), (isConfirmed() ? animation_exit_confirm : animation_exit_cancel));
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -181,11 +190,19 @@ public class SwipeButton extends FrameLayout {
     }
 
     private void scaleUpFinger(MotionEvent e) {
-        float scale = getScale(e);
-        setViewScale(finger, scale);
+        boolean wasConfirmed = isConfirmed();
+
+        lastFingerScale = getScale(e);
+        setViewScale(finger, lastFingerScale);
+
+        if (!wasConfirmed && isConfirmed()) {
+            finger.setBackgroundResource(background_finger_confirm);
+        } else if (wasConfirmed && !isConfirmed()) {
+            finger.setBackgroundResource(background_finger_cancel);
+        }
 
         if (listener != null) {
-            listener.onSwipeChanged(this, scale / scaleTarget);
+            listener.onSwipeChanged(this, lastFingerScale / scaleTarget);
         }
     }
 

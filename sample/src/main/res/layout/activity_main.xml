@@ -21,7 +21,8 @@
         android:clipToPadding="false"
         app:background_button="@drawable/button1_button"
         app:background_target="@drawable/button1_target"
-        app:background_finger="@drawable/button1_finger"
+        app:background_finger_cancel="@drawable/button1_finger_cancel"
+        app:background_finger_confirm="@drawable/button1_finger_cancel"
         app:src="@drawable/ic_close_black_24dp"
         android:id="@+id/button1"
         />
@@ -35,7 +36,6 @@
         app:background_finger="@drawable/button2_finger"
         app:src="@drawable/ic_check_black_24dp"
         app:animation_enter="@anim/button2_enter"
-        app:animation_exit="@anim/button2_exit"
         android:id="@+id/button2"
         />
 
