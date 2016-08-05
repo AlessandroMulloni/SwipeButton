@@ -28,11 +28,15 @@ Usage
         app:animation_exit_confirm="@anim/button2_exit_confirm"
         app:src_cancel="@drawable/ic_close_black_24dp"
         app:src_confirm="@drawable/ic_close_black_24dp"
+        app:scale_target="10.0"
         />
 ```
 
 Changelog
 ---------
+* **1.0.4**
+    * Target scale can be also configured in XML
+    * Added setters for all drawables
 * **1.0.3**
     * Support different drawables for cancel and confirm status
     * Event OnSwipeStarted now also reported
