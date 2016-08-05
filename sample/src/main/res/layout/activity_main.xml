@@ -23,7 +23,8 @@
         app:background_target="@drawable/button1_target"
         app:background_finger_cancel="@drawable/button1_finger_cancel"
         app:background_finger_confirm="@drawable/button1_finger_confirm"
-        app:src="@drawable/ic_close_black_24dp"
+        app:src_cancel="@drawable/ic_close_black_24dp"
+        app:src_confirm="@drawable/ic_close_black_24dp"
         android:id="@+id/button1"
         />
 
@@ -35,7 +36,8 @@
         android:clipToPadding="false"
         app:background_finger_cancel="@drawable/button2_finger"
         app:background_finger_confirm="@drawable/button2_finger"
-        app:src="@drawable/ic_check_black_24dp"
+        app:src_cancel="@drawable/ic_check_black_24dp"
+        app:src_confirm="@drawable/ic_check_green_24dp"
         app:animation_enter="@anim/button2_enter"
         app:animation_exit_cancel="@anim/button2_exit_cancel"
         app:animation_exit_confirm="@anim/button2_exit_confirm"

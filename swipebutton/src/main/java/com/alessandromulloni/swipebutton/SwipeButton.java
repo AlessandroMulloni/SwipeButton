@@ -27,7 +27,8 @@ public class SwipeButton extends FrameLayout {
 
     private OnSwipeListener listener;
 
-    private int src;
+    private int src_cancel;
+    private int src_confirm;
     private int background_button = R.drawable.default_button;
     private int background_target = R.drawable.default_target;
     private int background_finger_cancel = R.drawable.default_finger_cancel;
@@ -80,7 +81,8 @@ public class SwipeButton extends FrameLayout {
                 0, 0);
 
         try {
-            src = a.getResourceId(R.styleable.SwipeButton_src, src);
+            src_cancel = a.getResourceId(R.styleable.SwipeButton_src_cancel, src_cancel);
+            src_confirm = a.getResourceId(R.styleable.SwipeButton_src_confirm, src_confirm);
             background_button = a.getResourceId(R.styleable.SwipeButton_background_button, background_button);
             background_target = a.getResourceId(R.styleable.SwipeButton_background_target, background_target);
             background_finger_cancel = a.getResourceId(R.styleable.SwipeButton_background_finger_cancel, background_finger_cancel);
@@ -93,7 +95,7 @@ public class SwipeButton extends FrameLayout {
         }
 
         button.setBackgroundResource(background_button);
-        button.setImageResource(src);
+        button.setImageResource(src_cancel);
 
         target.setBackgroundResource(background_target);
         finger.setBackgroundResource(background_finger_cancel);
@@ -122,6 +124,7 @@ public class SwipeButton extends FrameLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 blendOutUI();
+                button.setImageResource(src_cancel);
 
                 if (listener != null) {
                     if (isConfirmed()) {
@@ -201,8 +204,10 @@ public class SwipeButton extends FrameLayout {
         setViewScale(finger, lastFingerScale);
 
         if (!wasConfirmed && isConfirmed()) {
+            button.setImageResource(src_confirm);
             finger.setBackgroundResource(background_finger_confirm);
         } else if (wasConfirmed && !isConfirmed()) {
+            button.setImageResource(src_cancel);
             finger.setBackgroundResource(background_finger_cancel);
         }
 
