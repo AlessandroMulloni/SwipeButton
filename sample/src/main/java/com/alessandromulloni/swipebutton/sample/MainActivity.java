@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
         button1 = (SwipeButton)findViewById(R.id.button1);
         button1.setOnSwipeListener(new SwipeButton.OnSwipeListener() {
             @Override
+            public void onSwipeStarted(View view) {
+                showMessage("Button 1 swipe started");
+            }
+
+            @Override
             public void onSwipeChanged(View view, float level) {
             }
 
@@ -40,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         button2 = (SwipeButton)findViewById(R.id.button2);
         button2.setOnSwipeListener(new SwipeButton.OnSwipeListener() {
+            @Override
+            public void onSwipeStarted(View view) {
+            }
+
             @Override
             public void onSwipeChanged(View view, float level) {
                 showMessage("Button 2 swipe level " + level);

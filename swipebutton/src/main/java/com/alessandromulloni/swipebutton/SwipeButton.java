@@ -15,6 +15,7 @@ import android.widget.ImageView;
 public class SwipeButton extends FrameLayout {
 
     public interface OnSwipeListener {
+        void onSwipeStarted(View view);
         void onSwipeChanged(View view, float level);
         void onSwipeCancelled(View view);
         void onSwipeConfirmed(View view);
@@ -108,6 +109,10 @@ public class SwipeButton extends FrameLayout {
             case MotionEvent.ACTION_DOWN:
                 blendInUI();
                 scaleUpFinger(event);
+
+                if (listener != null) {
+                    listener.onSwipeStarted(this);
+                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
