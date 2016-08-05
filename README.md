@@ -8,7 +8,7 @@ Gradle
 ```
 dependencies {
     ...
-    compile 'com.alessandromulloni.swipebutton:1.0.2'
+    compile 'com.alessandromulloni.swipebutton:1.0.3'
 }
 ```
 
@@ -26,12 +26,16 @@ Usage
         app:animation_enter="@anim/button2_enter"
         app:animation_exit_cancel="@anim/button2_exit_cancel"
         app:animation_exit_confirm="@anim/button2_exit_confirm"
-        app:src="@drawable/ic_close_black_24dp"
+        app:src_cancel="@drawable/ic_close_black_24dp"
+        app:src_confirm="@drawable/ic_close_black_24dp"
         />
 ```
 
 Changelog
 ---------
+* **1.0.3**
+    * Support different drawables for cancel and confirm status
+    * Event OnSwipeStarted now also reported
 * **1.0.2**
     * More custom parameters to control animations and backgrounds differently based on cancel/confirm status
 * **1.0.1**
