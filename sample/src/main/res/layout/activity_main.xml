@@ -25,6 +25,7 @@
         app:background_finger_confirm="@drawable/button1_finger_confirm"
         app:src_cancel="@drawable/ic_close_black_24dp"
         app:src_confirm="@drawable/ic_close_black_24dp"
+        app:scale_target="10.0"
         android:id="@+id/button1"
         />
 

@@ -3,6 +3,7 @@ package com.alessandromulloni.swipebutton;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -27,15 +28,17 @@ public class SwipeButton extends FrameLayout {
 
     private OnSwipeListener listener;
 
-    private int src_cancel;
-    private int src_confirm;
-    private int background_button = R.drawable.default_button;
-    private int background_target = R.drawable.default_target;
-    private int background_finger_cancel = R.drawable.default_finger_cancel;
-    private int background_finger_confirm = R.drawable.default_finger_confirm;
-    private int animation_enter = R.anim.default_enter;
-    private int animation_exit_cancel = R.anim.default_exit_cancel;
-    private int animation_exit_confirm = R.anim.default_exit_confirm;
+    private Drawable src_cancel;
+    private Drawable src_confirm;
+
+    private Drawable background_button;
+    private Drawable background_target;
+    private Drawable background_finger_cancel;
+    private Drawable background_finger_confirm;
+
+    private int animation_enter;
+    private int animation_exit_cancel;
+    private int animation_exit_confirm;
 
     private float scaleTarget = 5.0f;
     private float lastFingerScale = 0.0f;
@@ -70,8 +73,6 @@ public class SwipeButton extends FrameLayout {
         button = (ImageView)findViewById(R.id.button);
         finger = findViewById(R.id.finger);
         target = findViewById(R.id.target);
-
-        setViewScale(target, scaleTarget);
     }
 
     private void loadAttrs(Context context, AttributeSet attrs) {
@@ -81,24 +82,39 @@ public class SwipeButton extends FrameLayout {
                 0, 0);
 
         try {
-            src_cancel = a.getResourceId(R.styleable.SwipeButton_src_cancel, src_cancel);
-            src_confirm = a.getResourceId(R.styleable.SwipeButton_src_confirm, src_confirm);
-            background_button = a.getResourceId(R.styleable.SwipeButton_background_button, background_button);
-            background_target = a.getResourceId(R.styleable.SwipeButton_background_target, background_target);
-            background_finger_cancel = a.getResourceId(R.styleable.SwipeButton_background_finger_cancel, background_finger_cancel);
-            background_finger_confirm = a.getResourceId(R.styleable.SwipeButton_background_finger_confirm, background_finger_confirm);
-            animation_enter = a.getResourceId(R.styleable.SwipeButton_animation_enter, animation_enter);
-            animation_exit_cancel = a.getResourceId(R.styleable.SwipeButton_animation_exit_cancel, animation_exit_cancel);
-            animation_exit_confirm = a.getResourceId(R.styleable.SwipeButton_animation_exit_confirm, animation_exit_confirm);
+            src_cancel = loadDrawable(context, a, R.styleable.SwipeButton_src_cancel, 0);
+            src_confirm = loadDrawable(context, a, R.styleable.SwipeButton_src_confirm, 0);
+
+            background_button = loadDrawable(context, a, R.styleable.SwipeButton_background_button, R.drawable.default_button);
+            background_target = loadDrawable(context, a, R.styleable.SwipeButton_background_target, R.drawable.default_target);
+            background_finger_cancel = loadDrawable(context, a, R.styleable.SwipeButton_background_finger_cancel, R.drawable.default_finger_cancel);
+            background_finger_confirm = loadDrawable(context, a, R.styleable.SwipeButton_background_finger_confirm, R.drawable.default_finger_confirm);
+
+            animation_enter = loadResource(context, a, R.styleable.SwipeButton_animation_enter, R.anim.default_enter);
+            animation_exit_cancel = loadResource(context, a, R.styleable.SwipeButton_animation_exit_cancel, R.anim.default_exit_cancel);
+            animation_exit_confirm = loadResource(context, a, R.styleable.SwipeButton_animation_exit_confirm, R.anim.default_exit_confirm);
+
+            scaleTarget = a.getFloat(R.styleable.SwipeButton_scale_target, scaleTarget);
         } finally {
             a.recycle();
         }
 
-        button.setBackgroundResource(background_button);
-        button.setImageResource(src_cancel);
+        setSourceCancel(src_cancel);
+        setBackgroundButton(background_button);
+        setBackgroundTarget(background_target);
+        setBackgroundFingerCancel(background_finger_cancel);
 
-        target.setBackgroundResource(background_target);
-        finger.setBackgroundResource(background_finger_cancel);
+        setViewScale(target, scaleTarget);
+    }
+
+    private Drawable loadDrawable(Context context, TypedArray a, int styleableId, int defaultDrawable) {
+        int id = a.getResourceId(styleableId, defaultDrawable);
+        return context.getResources().getDrawable(id);
+    }
+
+    private int loadResource(Context context, TypedArray a, int styleableId, int defaultAnimation) {
+        int id = a.getResourceId(styleableId, defaultAnimation);
+        return id;
     }
 
     public void setOnSwipeListener(OnSwipeListener listener) {
@@ -124,7 +140,7 @@ public class SwipeButton extends FrameLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 blendOutUI();
-                button.setImageResource(src_cancel);
+                button.setImageDrawable(src_cancel);
 
                 if (listener != null) {
                     if (isConfirmed()) {
@@ -204,11 +220,11 @@ public class SwipeButton extends FrameLayout {
         setViewScale(finger, lastFingerScale);
 
         if (!wasConfirmed && isConfirmed()) {
-            button.setImageResource(src_confirm);
-            finger.setBackgroundResource(background_finger_confirm);
+            button.setImageDrawable(src_confirm);
+            finger.setBackground(background_finger_confirm);
         } else if (wasConfirmed && !isConfirmed()) {
-            button.setImageResource(src_cancel);
-            finger.setBackgroundResource(background_finger_cancel);
+            button.setImageDrawable(src_cancel);
+            finger.setBackground(background_finger_cancel);
         }
 
         if (listener != null) {
@@ -224,5 +240,45 @@ public class SwipeButton extends FrameLayout {
         float dist = (float)Math.sqrt(distX * distX + distY * distY);
 
         return dist / halfSize;
+    }
+
+    public void setSourceCancel(Drawable drawable) {
+        src_cancel = drawable;
+        button.setImageDrawable(src_cancel);
+    }
+
+    public void setSourceConfirm(Drawable drawable) {
+        src_confirm = drawable;
+    }
+
+    public void setBackgroundButton(Drawable drawable) {
+        background_button = drawable;
+        button.setBackground(background_button);
+    }
+
+    public void setBackgroundTarget(Drawable drawable) {
+        background_target = drawable;
+        target.setBackground(background_target);
+    }
+
+    public void setBackgroundFingerCancel(Drawable drawable) {
+        background_finger_cancel = drawable;
+        finger.setBackground(background_finger_cancel);
+    }
+
+    public void setBackgroundFingerConfirm(Drawable drawable) {
+        background_finger_confirm = drawable;
+    }
+
+    public void setAnimationEnter(int animation) {
+        animation_enter = animation;
+    }
+
+    public void setAnimationExitCancel(int animation) {
+        animation_exit_cancel = animation;
+    }
+
+    public void setAnimationExitConfirm(int animation) {
+        animation_exit_confirm = animation;
     }
 }

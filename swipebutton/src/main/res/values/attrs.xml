@@ -10,5 +10,6 @@
         <attr name="animation_enter" format="reference" />
         <attr name="animation_exit_cancel" format="reference" />
         <attr name="animation_exit_confirm" format="reference" />
+        <attr name="scale_target" format="float" />
     </declare-styleable>
 </resources>
